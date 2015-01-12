@@ -7,20 +7,24 @@
  *
  */
 
-
-
 public class Lane {
-
-    public static class OverflowException extends RuntimeException {
-        // Undantag som kastas när det inte gick att lägga 
-        // in en ny bil på vägen
+    public Car[] theLane;             //SKA VARA PRIVATE
+    
+    
+    //static class OverflowException extends RuntimeException {
+    // Undantag som kastas när det inte gick att lägga in en ny bil på vägen
+    //}
+    
+    public Lane () {
     }
-
-    private Car[] theLane;
-
-    public Lane(int n) {
+    
+    public Lane(int length) {
 	// Konstruerar ett Lane-objekt med plats för n fordon
-    	theLane = new Car[n];
+	
+	// throw {
+	//         IllegalParameterArgument()
+	//       }
+    	theLane = new Car[length];
     }
 
     public void step() {
@@ -28,10 +32,10 @@ public class Lane {
         // (om det går). (Fordonet på plats 0 tas bort utifrån 
 	// mm h a metoden nedan.)
     	for(int i = 0; i < theLane.length - 1; ++i){
-    		if(theLane[i] == null){
-    			theLane[i] = theLane[i+1];
-    			theLane[i+1] = null;
-    		}
+	    if(theLane[i] == null){
+		theLane[i] = theLane[i+1];
+		theLane[i+1] = null;
+	    }
     	}
     }
 
@@ -47,28 +51,39 @@ public class Lane {
     	return theLane[0];
     }
 
-
     public boolean lastFree() {
 	// Returnera true om sista platsen ledig, annars false
     	return theLane[theLane.length - 1] == null;
     }
 
-    public void putLast(Car c) throws OverflowException {
-	// Ställ en bil på sista platsen på vägen
-	// (om det går).
+    public void putLast(Car c)/* throws OverflowException*/ {
+	// Ställ en bil på sista platsen på vägen (om det går).
     	if(lastFree()){
-    		theLane[theLane.length - 1] = c;
-    	}
-    	else{
-    		// throw shit
+	    theLane[theLane.length - 1] = c;
+    	} else {
+	    // throw shit
     	}
     }
-
+    
     public String toString() {
-    	return "theLane="+ theLane;
+	return "theLane="+ theLane;
     }
-
+   
+    
+    private class StartingLane extends Lane {
+	Lane forkingPath1;
+	Lane forkingPath2;
+	
+	//Car [] theLane;
+	//	StartingLane() {
+	//}
+    
+	StartingLane(int length, Lane left, Lane right) {
+	    super(length);
+	    this.forkingPath1 = left;
+	    this.forkingPath2 = right;
+	}
+    }
 }
-
 
 ///STARTINGLANE EXTENDS LANE HAR ÄVEN CONNECTION SOM ÄR EN KOPPLING TILL NÄSTA LANE????

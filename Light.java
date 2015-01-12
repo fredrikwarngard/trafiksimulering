@@ -14,17 +14,23 @@ public class Light {
     private int period;
     private int time;  // Intern klocka: 0, 1, ... period-1, 0, 1 ...
     private int greenLight; // Signalen grön när time<green 
+    
+    public static class BadLightException extends IllegalArgumentException {
+        // Undantag som kastas när lysets gröntid är längre än totaltiden
+    }
+
 
     public Light(int period, int green) {
-    	this.period = period;
-    	this.time = 0;
-    	if(green < period){
+	if ((greenLight < period) != true) {
+	    //  EXCEPTION!!! 	    // throw badLightException     INVALID PARAMETERS
+	} else { // construct fo' real
+	    
+	    this.period = period;
+	    this.time = 0;
 	    this.greenLight  = green;
     	}
-    	else {
-	    // throw exception     INVALID PARAMETERS
-	}
     }
+    
     public void step() { 
 	// Stegar fram klocka ett steg
 	if(time < period - 1)
